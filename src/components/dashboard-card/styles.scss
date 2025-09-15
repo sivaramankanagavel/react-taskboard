@@ -1,0 +1,55 @@
+@use "../../index.scss" as v;
+
+.dashboard__card {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+    &-content {
+        width: 85%;
+        padding: 1rem;
+
+        h4 {
+            margin: 0;
+        }
+    }
+
+    &-icon {
+        width: 15%;
+        padding: 1rem;
+    }
+
+    &--blue,
+    &--green,
+    &--purple,
+    &--orange,
+    &--yellow,
+    &--red {
+        border-radius: 10px;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &--blue {
+        background-color: rgba(37, 99, 235, 0.5);
+    }
+
+    &--green {
+        background-color: rgba(22, 163, 74, 0.5);
+    }
+
+    &--orange {
+        background-color: rgba(115, 118, 37, 0.5);
+    }
+
+    &--yellow {
+        background-color: rgba(202, 138, 4, 0.5);
+    }
+
+    &--red {
+        background-color: rgba(220, 38, 38, 0.5);
+    }
+}

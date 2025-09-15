@@ -1,0 +1,67 @@
+@use "../../index.scss" as v;
+
+.side-nav-content {
+    display: flex;
+    flex-direction: column;
+    height: 85%;
+
+    &--open, &--close {
+        .side-nav-ul {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 0;
+            padding: 0 1rem;
+            flex-grow: 1;
+            list-style: none;
+
+            .side-nav-li {
+                padding: 1rem;
+                &--active {
+                    background-color: darken(v.$sidenav-bg-color, 5%);
+
+                    a {
+                        justify-content: initial;
+                        align-items: center;
+                        display: flex;
+                        color: v.$text-color-white;
+                        gap: 5px;
+
+                        svg {
+                            stroke: v.$text-color-white;
+                        }
+                    }
+                }
+
+                &--de-active {
+                    a {
+                        justify-content: initial;
+                        align-items: center;
+                        display: flex;
+                        color: v.$text-color-grey;
+                        gap: 5px;
+
+                        svg {
+                            stroke: v.$text-color-grey;
+                        }
+                    }
+                }
+
+                &:hover {
+                    background-color: darken(v.$sidenav-bg-color, 10%);
+
+                    a {
+                        color: v.$text-color-white;
+                        svg {
+                            stroke: v.$text-color-white;
+                        }
+                    }
+                }
+
+                &:last-child {
+                    margin-top: auto;
+                }
+            }
+        }
+    }
+}

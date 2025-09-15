@@ -1,0 +1,46 @@
+@use "../../index.scss" as v;
+
+.sign-in {
+    background: v.$sign-in-bg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    height: 100vh;
+
+    &__heading {
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        h1 {
+            font-weight: 700;
+            font-size: 2.25rem;
+            line-height: 2rem;
+            color: v.$text-color-white;
+            margin: 5px 0;
+        }
+
+        p {
+            font-size: 1.25rem;
+            line-height: 1.25rem;
+            color: v.$sign-in-para;
+            margin: 0;
+        }
+    }
+
+    &__form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+    }
+}

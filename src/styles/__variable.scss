@@ -1,0 +1,91 @@
+@use "sass:color";
+
+// color
+$start: #0D1164;
+$end: #3338A0;
+$app-bg: linear-gradient(to right, $end, $start);
+$sidenav-bg-color: $start;
+$white: #fff;
+$black: #000;
+$svg-icon-stroke-white: $white;
+$text-color-white: $white;
+$text-color-grey: #C9CDCF;
+$border-color: hsl(240, 10%, 20%);
+$side-nav-list-border-color: hsla(240, 36%, 60%, 1);
+$sign-in-para: #fffc;
+$sign-in-bg: linear-gradient(
+  135deg,
+  hsl(263, 70%, 50%) 0%,
+  hsl(220, 70%, 50%) 50%,
+  hsl(280, 70%, 45%) 100%
+);
+$primary-color: #4F46E5;
+$secondary-color: #6B7280;
+$card-background: #1E293B;
+$card-border: #334155;
+$green: #10B981;
+$not_started: linear-gradient(135deg, #a64ca6, #d18cd1);
+$in_progress: linear-gradient(135deg, #2196f3, #6ec6ff);
+$blocked: linear-gradient(135deg, #e53935, #ff8a80);
+$completed: linear-gradient(135deg, #43a047, #a5d6a7);
+
+// font variables
+$font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+$base-font-size: 1rem;
+$base-line-height: 1.5;
+$base-font-weight: 400;
+$heading-font-weight: 600;
+$border-radius: 0.375rem;
+$box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+// padding
+$nav-item-padding: 12px 16px;
+
+// re-usable color functions (modern Sass)
+@function darken($c, $percentage) {
+  @return color.mix($black, $c, $percentage);
+}
+
+// re-usable classname:
+.ReactModal__Content {
+  background: $app-bg; // uses your gradient
+  color: $text-color-white;
+  border: 1px solid $card-border;
+  border-radius: 8px;
+  padding: 24px;
+  width: 500px;
+  max-width: 75%;
+  height: auto;
+  max-height: 50%;
+  overflow-y: auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+  position: relative;
+  margin: auto;
+  top: 25%;
+}
+
+// overlay
+.ReactModal__Overlay {
+  background-color: rgba(0, 0, 0, 0.45) !important;
+  z-index: 1500;
+}
+
+// Custom scrollbar styling
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: color.adjust($start, $lightness: -10%); // slightly darker track
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $white;
+  border-radius: 4px;
+  border: 2px solid $card-background; // adds contrast
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: color.adjust($text-color-grey, $lightness: 10%);
+}

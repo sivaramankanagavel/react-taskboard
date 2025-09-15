@@ -1,0 +1,265 @@
+@use "../../index.scss" as v;
+
+.kanban-board-container {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 15px 0px;
+  height: 100%;
+}
+
+.kanban-column {
+  flex-shrink: 0;
+  min-height: 500px;
+  max-height: 100%;
+  overflow-y: auto;
+  border-radius: 8px;
+  padding: 1rem;
+  position: relative;
+  transition: width 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  // Accent bar
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 5px;
+    width: 100%;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+}
+
+/* Column-specific styles with gradients and accent bars */
+.NOT_STARTED-column {
+  width: 25%;
+  background: v.$not_started;
+
+  &::before {
+    background-color: #a64ca6;
+  }
+}
+
+.IN_PROGRESS-column {
+  width: 25%;
+  background: v.$in_progress;
+
+  &::before {
+    background-color: #2196f3;
+  }
+}
+
+.BLOCKED-column {
+  width: 25%;
+  background: v.$blocked;
+
+  &::before {
+    background-color: #e53935;
+  }
+}
+
+.COMPLETED-column {
+  flex-grow: 1;
+  width: 25%;
+  background: v.$completed;
+
+  &::before {
+    background-color: #43a047;
+  }
+}
+
+.kanban-card {
+  font-family: v.$font-family;
+  font-size: v.$base-font-size;
+  line-height: v.$base-line-height;
+  font-weight: v.$base-font-weight;
+
+  // Base card styles derived from the provided JSX and variables
+  background-color: v.$card-background;
+  color: v.$text-color-white;
+  border: 1px solid v.$card-border;
+  border-radius: v.$border-radius;
+  padding: 1rem;
+  box-shadow: v.$box-shadow;
+  margin-bottom: 1rem;
+  cursor: grab;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .ticket-name {
+    font-weight: v.$heading-font-weight;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+  }
+
+  // Status badge styling
+  .status-badge {
+    font-size: 0.75rem;
+    font-weight: v.$heading-font-weight;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px; // Fully rounded
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  p {
+    color: v.$white;
+    margin: 0;
+  }
+
+  .due-date {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .owner {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem; // text-sm
+  }
+
+  // Styles for due date section
+  .due-date-container,
+  .project-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: v.$text-color-grey;
+
+    // Icon styling
+    .icon {
+      height: 1rem;
+      width: 1rem;
+      flex-shrink: 0;
+    }
+  }
+
+  // Styles for the button
+  .view-details-button {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border-radius: v.$border-radius;
+    font-weight: v.$heading-font-weight;
+    cursor: pointer;
+    text-align: center;
+
+    // variant="outline"
+    background-color: transparent;
+    color: v.$primary-color;
+    border: 1px solid v.$primary-color;
+
+    &:hover {
+      background-color: v.$primary-color;
+      color: v.$white;
+    }
+  }
+}
+
+.kanban-card-status {
+  &.not_started {
+    background: v.$not_started;
+    color: v.$white;
+    border-color: transparent;
+
+    .status-badge {
+      background-color: #d18cd1;
+      color: v.$white;
+    }
+
+    .view-details-button {
+      background-color: darken(#a64ca6, 20%);
+      color: v.$white;
+      border-color: darken(#a64ca6, 10%);
+
+      &:hover {
+        background-color: darken(#a64ca6, 30%);
+      }
+    }
+  }
+
+  &.in_progress {
+    background: v.$in_progress;
+    color: v.$white;
+    border-color: transparent;
+
+    .status-badge {
+      background-color: #6ec6ff;
+      color: darken(#2196f3, 40%);
+    }
+
+    .view-details-button {
+      background-color: darken(#2196f3, 20%);
+      color: v.$white;
+      border-color: darken(#2196f3, 10%);
+
+      &:hover {
+        background-color: darken(#2196f3, 30%);
+      }
+    }
+  }
+
+  &.blocked {
+    background: v.$blocked;
+    color: v.$white;
+    border-color: transparent;
+
+    .status-badge {
+      background-color: #ff8a80;
+      color: darken(#e53935, 30%);
+    }
+
+    .view-details-button {
+      background-color: darken(#e53935, 20%);
+      color: v.$white;
+      border-color: darken(#e53935, 10%);
+
+      &:hover {
+        background-color: darken(#e53935, 30%);
+      }
+    }
+  }
+
+  &.completed {
+    background: v.$completed;
+    color: v.$white;
+    border-color: transparent;
+
+    .status-badge {
+      background-color: #a5d6a7;
+      color: darken(#43a047, 30%);
+    }
+
+    .view-details-button {
+      background-color: darken(#43a047, 20%);
+      color: v.$white;
+      border-color: darken(#43a047, 10%);
+
+      &:hover {
+        background-color: darken(#43a047, 30%);
+      }
+    }
+  }
+}
+
+.modal-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}

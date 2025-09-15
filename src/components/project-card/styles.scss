@@ -1,0 +1,102 @@
+@use "../../index.scss" as v;
+
+.project-card {
+  background-color: v.$card-background;
+  border: 1px solid v.$card-border;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+
+  &__header {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  p {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: start;
+    justify-content: center;
+    color: v.$text-color-grey;
+  }
+
+  h2 {
+    color: v.$white;
+    margin: 0;
+  }
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+  }
+
+  svg {
+    stroke: currentColor;
+  }
+
+  .btn {
+    background-color: darken(v.$black, 10%);
+    color: v.$white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    &:hover {
+      background-color: v.$white;
+      color: v.$black;
+    }
+  }
+
+  &__modal {
+
+    h2 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    &__form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 15px;
+
+      label {
+        display: flex;
+        flex-direction: column;
+        color: v.$white;
+        font-size: 16px;
+        gap: 5px;
+
+        input,
+        select {
+          padding: 10px;
+          border: 1px solid v.$side-nav-list-border-color;
+          border-radius: 5px;
+          background-color: darken(v.$start, 10%);
+          color: v.$white;
+
+          &:focus {
+            outline: none;
+            border-color: v.$primary-color;
+          }
+        }
+      }
+    }
+  }
+}

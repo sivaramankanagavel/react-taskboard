@@ -1,0 +1,113 @@
+@use "../../index.scss" as v;
+
+.projects-page {
+    padding: 0px 20px 20px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+
+        h1 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 32px;
+            color: v.$white;
+        }
+
+        .btn {
+            background-color: darken(v.$black, 10%);
+            color: v.$white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            &:hover {
+                background-color: v.$white;
+                color: v.$black;
+            }
+        }
+    }
+
+    &__search {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        background-color: darken(v.$start, 10%);
+        gap: 10px;
+        width: fit-content;
+
+        input {
+            height: 100%;
+            border: none;
+            background: transparent;
+            color: v.$white;
+
+            &:focus {
+                outline: none;
+                border-color: v.$primary-color;
+            }
+        }
+    }
+
+    &__modal {
+
+        h2 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        &__form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 15px;
+
+            label {
+                display: flex;
+                flex-direction: column;
+                color: v.$white;
+                font-size: 16px;
+                gap: 5px;
+
+                input, select {
+                    padding: 10px;
+                    border: 1px solid v.$side-nav-list-border-color;
+                    border-radius: 5px;
+                    background-color: darken(v.$start, 10%);
+                    color: v.$white;
+
+                    &:focus {
+                        outline: none;
+                        border-color: v.$primary-color;
+                    }
+                }
+            }
+        }
+
+        &__buttons {
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            gap: 10px;
+        }
+    }
+
+    &__project-card {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+}

@@ -1,0 +1,68 @@
+@use "../../index.scss" as v;
+
+.tickets-page {
+    padding: 0px 20px 20px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h1 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 32px;
+            color: v.$white;
+        }
+
+        .btn {
+            background-color: darken(v.$black, 10%);
+            color: v.$white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            &:hover {
+                background-color: v.$white;
+                color: v.$black;
+            }
+        }
+    }
+
+    &__search {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: fit-content;
+
+        select {
+            height: 100%;
+            padding: 10px;
+            display: flex;
+            flex-direction: row;
+            border: none;
+            background-color: darken(v.$start, 10%);
+            color: v.$white;
+
+            &:focus {
+                outline: none;
+                border-color: v.$primary-color;
+            }
+        }
+    }
+
+   &__project-card {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+}

@@ -1,0 +1,12 @@
+@use "../../index.scss" as v;
+
+.badge {
+    font-size: v.$base-font-size;
+    font-weight: v.$heading-font-weight;
+    line-height: v.$base-line-height;
+    padding: 0.25rem 0.5rem;
+    border-radius: v.$border-radius;
+    display: inline-block;
+    color: v.$green !important;
+    background-color: rgba($color: v.$black, $alpha: 0.25);
+}
