@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Layout from "./components/layout/Layout";
 import { Routes, Route } from "react-router-dom";
-import Dashboard from "./pages/Dashboard/Dashboard";
+import Dashboard from "./pages/dashboard/Dashboard";
 import Projects from "./pages/projects/Project";
 import Tickets from "./pages/tickets/Tickets"
 import ProtectedRoute from "./components/protected-route/ProtectedRoute";
