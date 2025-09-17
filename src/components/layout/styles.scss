@@ -82,6 +82,7 @@
     background-color: transparent;
     color: v.$text-color-white;
     transition: padding-left 0.3s ease;
+    width: 100%;
 
     &.open {
       padding-left: 16%;

@@ -16,7 +16,7 @@ export const fetchProjects = createAsyncThunk(
         `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_PROJECTS_ENDPOINT}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
           },
         }
       );
@@ -37,7 +37,7 @@ export const addProject = createAsyncThunk(
         projectData,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
           },
         }
       );
@@ -57,7 +57,7 @@ export const deleteProject = createAsyncThunk(
         `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_PROJECTS_ENDPOINT}/${id}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
           },
         }
       );
@@ -78,7 +78,7 @@ export const updateproject = createAsyncThunk(
         projectData,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
           },
         }
       );

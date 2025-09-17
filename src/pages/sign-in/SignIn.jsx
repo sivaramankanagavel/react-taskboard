@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchProjects } from "../../store/slice/project-slice";
 import { getAllTickets } from "../../store/slice/tasks-slice"
+import { ToastContainer } from "react-toastify";
 
 import "./styles.scss";
 
@@ -50,6 +51,7 @@ function SignIn() {
 
   return (
     <div className="sign-in">
+      <ToastContainer position="top-right" autoClose={5000} />
       <div className="sign-in__heading">
         <h1>Welcome to TaskFlow Pro</h1>
         <p>Your ultimate task management solution</p>

@@ -80,7 +80,7 @@ export const getAllTickets = createAsyncThunk(
         `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_TICKETS}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
           },
         }
       )
@@ -99,7 +99,7 @@ export const getTickets = createAsyncThunk(
         `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_TICKETS_AND_PROJECTS}/${projectId}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
           },
         }
       )
@@ -119,7 +119,7 @@ export const updateTicketStatus = createAsyncThunk(
         updatedData,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
           },
         }
       )
@@ -138,7 +138,7 @@ export const addTicket = createAsyncThunk("Create Ticket", async ({ ticketData }
       ticketData,
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
         },
       }
     )
@@ -155,7 +155,7 @@ export const deleteTicket = createAsyncThunk("Delete Ticket", async ({ ticketId 
       `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_API_TICKETS}/${ticketId}`,
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
         },
       }
     )

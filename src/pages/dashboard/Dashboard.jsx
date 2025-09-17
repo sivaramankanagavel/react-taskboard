@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import DashboardCard from "../../components/dashboard-card/DashboardCard";
 import { CircleCheck, ListTodo, Construction, Pickaxe } from "lucide-react";
+import { ToastContainer } from "react-toastify";
 
 import "./styles.scss";
 
@@ -46,6 +47,7 @@ function Dashboard() {
 
   return (
     <div className="dashboard">
+      <ToastContainer position="top-right" autoClose={5000} />
       <h1>Welcome back, {useDetails?.displayName || "User"} 👋</h1>
       <p>Here's what's happening with your projects today.</p>
       <div className={`dashboard__cards`}>

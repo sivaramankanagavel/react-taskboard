@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { createUser, deleteUser, updateuser } from "../../store/slice/auth-slice";
 import Modal from "react-modal";
-import BadgeCard from "../../components/badge-card/BadgeCard";
+import { ToastContainer } from "react-toastify";
 
 import "./styles.scss";
 
@@ -30,9 +30,11 @@ function UserManagement() {
   });
   const roles = [
     { name: "Admin", value: "ADMIN" },
-    { name: "Read Only", value: "READ_ONLY_USER" },
     { name: "Task Creator", value: "TASK_CREATOR" },
+    { name: "Read Only", value: "READ_ONLY_USER" }
   ];
+
+  const priority = ["ADMIN", "TASK_CREATOR", "READ_ONLY_USER"];
   const dispatch = useDispatch();
   const isAdmin =
     useSelector((state) => state?.auth?.userData?.isAdmin) || false;
@@ -90,6 +92,7 @@ function UserManagement() {
 
   return (
     <div className="user-page">
+      <ToastContainer position="top-right" autoClose={5000} />
       <Modal
         isOpen={openConfirmationModal}
         onRequestClose={() => setOpenConfirmationModal(false)}
@@ -151,7 +154,7 @@ function UserManagement() {
               }
             >
               <option value="">Select Role</option>
-              {roles.map((role) => (
+              {roles.filter((user, index) => index < priority.indexOf(userFormData.role)).map((role) => (
                 <option key={role.value} value={role.value}>
                   {role.name}
                 </option>

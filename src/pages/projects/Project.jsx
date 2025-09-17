@@ -143,7 +143,7 @@ function Projects() {
             />
           </label>
           <label>
-            Assignee ID*
+            Assignee Name*
             <select
               value={projectFormData.assigneeId}
               onChange={(e) =>
@@ -154,7 +154,7 @@ function Projects() {
               }
             >
               <option value="">Select Assignee</option>
-              {users.map((user) => (
+              {users.filter((user) => user.role === "ADMIN" || user.role === "TASK_CREATOR").map((user) => (
                 <option key={user._id} value={user._id}>
                   {user.name}
                 </option>
@@ -162,7 +162,7 @@ function Projects() {
             </select>
           </label>
           <label>
-            Members ID*
+            Members Name*
             <select
               multiple
               value={projectFormData.members}

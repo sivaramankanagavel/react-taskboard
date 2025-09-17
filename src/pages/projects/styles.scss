@@ -86,8 +86,6 @@
                     padding: 10px;
                     border: 1px solid v.$side-nav-list-border-color;
                     border-radius: 5px;
-                    background-color: darken(v.$start, 10%);
-                    color: v.$white;
 
                     &:focus {
                         outline: none;

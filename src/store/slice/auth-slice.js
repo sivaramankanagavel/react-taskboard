@@ -54,7 +54,7 @@ export const getAllUsers = createAsyncThunk(
     const api = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_USER_ENDPOINT}`;
     const response = await axios.get(api, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
       },
     });
     return response.data;
@@ -68,13 +68,21 @@ export const loginEndPointAsyncFunc = createAsyncThunk(
     try {
       const response = await axios.post(api, { idToken });
       const { token: jwtToken, user } = response.data;
+      console.log(user);
 
       if (!jwtToken || !user) {
         throw new Error("Invalid response from server");
       }
 
-      localStorage.setItem("jwt", jwtToken);
       const decodedToken = parseJwt(jwtToken);
+      const expirationTime = decodedToken ? decodedToken.exp * 1000 : null;
+
+      sessionStorage.setItem("jwt", jwtToken);
+      if (expirationTime) {
+        sessionStorage.setItem("tokenExpiration", expirationTime);
+      }
+      sessionStorage.setItem("userData", JSON.stringify(user));
+
       dispatch(getAllUsers());
 
       return {
@@ -82,7 +90,7 @@ export const loginEndPointAsyncFunc = createAsyncThunk(
         isAdmin: user.role === "ADMIN",
         isTaskCreator: user.role === "TASK_CREATOR",
         userId: user._id,
-        expiration: decodedToken ? decodedToken.exp * 1000 : null,
+        expiration: expirationTime,
         jwt: jwtToken,
       };
     } catch (error) {
@@ -122,7 +130,9 @@ export const logoutWithGoogle = createAsyncThunk(
   async () => {
     try {
       await signOutFunc();
-      localStorage.removeItem("jwt");
+      sessionStorage.removeItem("jwt");
+      sessionStorage.removeItem("tokenExpiration");
+      sessionStorage.removeItem("userData");
       return true;
     } catch (error) {
       return Promise.reject(error.message || "Google logout failed");
@@ -133,14 +143,17 @@ export const logoutWithGoogle = createAsyncThunk(
 export const deleteUser = createAsyncThunk(
   "auth/deleteUser",
   async (userId, { dispatch, rejectWithValue }) => {
-    const api = `${import.meta.env.VITE_API_BASE_URL}${
-      import.meta.env.VITE_USER_ENDPOINT
-    }/${userId}`;
+    const api = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_USER_ENDPOINT
+      }/${userId}`;
     try {
       await axios.delete(api, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
         },
+      });
+      toast.success("User Delted successfully!", {
+        position: "bottom-center",
+        autoClose: 5000,
       });
       dispatch(getAllUsers());
     } catch (error) {
@@ -155,7 +168,7 @@ export const createUser = createAsyncThunk(
     try {
       const response = await axios.post(api, userData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
         },
       });
       dispatch(getAllUsers());
@@ -176,7 +189,7 @@ export const updateuser = createAsyncThunk(
     try {
       const response = await axios.put(api, userData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
         },
       });
       if (loggedUserData._id === userId) {
@@ -253,7 +266,7 @@ const authSlice = createSlice({
         state.isLoggedIn = false;
         state.user = authInitialState.user;
         state.userData = authInitialState.userData;
-        localStorage.removeItem("jwt");
+        sessionStorage.removeItem("jwt");
       })
       .addCase(getAllUsers.pending, (state) => {
         state.endpointIsPending = true;

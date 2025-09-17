@@ -158,7 +158,7 @@ function ProjectCard({ title, description, owner, createdAt, id }) {
               />
             </label>
             <label>
-              Owner ID*
+              Owner Name*
               <select
                 value={projectFormData.ownerId}
                 onChange={(e) =>
@@ -170,7 +170,7 @@ function ProjectCard({ title, description, owner, createdAt, id }) {
                 disabled={!isAdmin}
               >
                 <option value="">Select Owner</option>
-                {users.map((user) => (
+                {users.filter((user) => user.role === "ADMIN" || user.role === "TASK_CREATOR").map((user) => (
                   <option key={user._id} value={user._id}>
                     {user.name}
                   </option>
@@ -178,7 +178,7 @@ function ProjectCard({ title, description, owner, createdAt, id }) {
               </select>
             </label>
             <label>
-              Members ID*
+              Members Name*
               <select
                 multiple
                 value={projectFormData.members}
