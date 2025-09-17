@@ -9,12 +9,17 @@ import "./styles.scss";
 
 function Dashboard() {
   const projects = useSelector((state) => state?.projectsData?.projects) || [];
-  const useDetails = useSelector((state) => state?.auth?.user) || {};
+  const user = useSelector((state) => state?.auth?.user) || {};
   const allTickets = useSelector((state) => state?.ticketsData?.allTickets) || [];
   const [cardsData, setCardsData] = useState([]);
+  const [userDetails, setUserDetails] = useState({});
 
   useEffect(() => {
-    // define the data structure for cards
+    const userDetails = JSON.parse(sessionStorage.getItem("userData"));
+    setUserDetails(userDetails);
+  }, [user])
+
+  useEffect(() => {
     setCardsData([]);
     let newData = [];
     newData.push({ title: "Total Projects", value: projects.length, color: 'blue' });
@@ -22,7 +27,6 @@ function Dashboard() {
     newData.push({ title: "Not Started Tickets", value: allTickets?.filter(ticket => ticket.status === "NOT_STARTED").length, color: 'orange' });
     newData.push({ title: "In Progress Tickets", value: allTickets?.filter(ticket => ticket.status === "IN_PROGRESS").length, color: 'yellow' });
     newData.push({ title: "Blocked Tickets", value: allTickets?.filter(ticket => ticket.status === "BLOCKED").length, color: 'red' });
-
     setCardsData(newData);
   }, [projects, allTickets]);
 
@@ -48,7 +52,7 @@ function Dashboard() {
   return (
     <div className="dashboard">
       <ToastContainer position="top-right" autoClose={5000} />
-      <h1>Welcome back, {useDetails?.displayName || "User"} 👋</h1>
+      <h1>Welcome back, {userDetails?.name || "User"} 👋</h1>
       <p>Here's what's happening with your projects today.</p>
       <div className={`dashboard__cards`}>
         {
