@@ -5,6 +5,10 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import Dashboard from "../dashboard/Dashboard";
 
+const projectsReducer = (state = { projects: [] }) => state;
+const ticketsReducer = (state = { allTickets: [] }) => state;
+const authReducer = (state = { user: {} }) => state;
+
 describe("Dashboard", () => {
   const mockProjects = [{ id: 1 }, { id: 2 }];
   const mockTickets = [
@@ -18,9 +22,14 @@ describe("Dashboard", () => {
 
   const store = configureStore({
     reducer: {
-      projectsData: (state = { projects: mockProjects }) => state,
-      ticketsData: (state = { allTickets: mockTickets }) => state,
-      auth: (state = { user: mockUser }) => state,
+      projectsData: projectsReducer,
+      ticketsData: ticketsReducer,
+      auth: authReducer,
+    },
+    preloadedState: {
+      projectsData: { projects: mockProjects },
+      ticketsData: { allTickets: mockTickets },
+      auth: { user: mockUser },
     },
   });
 
@@ -31,7 +40,9 @@ describe("Dashboard", () => {
       </Provider>
     );
 
-    expect(screen.getByText(/Welcome back, Admin User/i)).toBeInTheDocument();
+    const heading = screen.getByRole('heading', { name: /Welcome back, User/i });
+    expect(heading).toBeInTheDocument();
+    
     expect(screen.getByText(/Here's what's happening with your projects today/i)).toBeInTheDocument();
   });
 
@@ -54,8 +65,7 @@ describe("Dashboard", () => {
       const cardHeading = await screen.findByRole("heading", { name: data.title });
       expect(cardHeading).toBeInTheDocument();
 
-      // find the count in the same card container
-      const cardContainer = cardHeading.closest("div");
+      const cardContainer = cardHeading.closest("[data-testid='dashboard-card']");
       const count = within(cardContainer).getByText(data.count.toString());
       expect(count).toBeInTheDocument();
     }

@@ -38,8 +38,8 @@ function Layout() {
         <div className="layout__user-profile">
           <BadgeCard />
           <div className="layout__user-profile--info">
-            {userDetails.name && <span>{userDetails.name}</span>}
-            {userDetails.email && <span>{userDetails.email}</span>}
+            <span>{userDetails.name}</span>
+            <span>{userDetails.email}</span>
           </div>
           <UserPen />
         </div>
