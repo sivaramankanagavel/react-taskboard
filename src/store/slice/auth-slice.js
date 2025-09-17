@@ -5,8 +5,8 @@ import {
   provider,
   signOutFunc,
 } from "../../firebase/firebase.config";
-import axios from "axios";
 import { toast } from "react-toastify";
+import api from "../../utils/api";
 
 function parseJwt(token) {
   try {
@@ -47,28 +47,17 @@ const authInitialState = {
   endpointIsPending: false,
 };
 
-// get all users from backend:
-export const getAllUsers = createAsyncThunk(
-  "auth/getAllUsers",
-  async () => {
-    const api = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_USER_ENDPOINT}`;
-    const response = await axios.get(api, {
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-      },
-    });
-    return response.data;
-  }
-);
+export const getAllUsers = createAsyncThunk("auth/getAllUsers", async () => {
+  const response = await api.get(import.meta.env.VITE_USER_ENDPOINT);
+  return response.data;
+});
 
 export const loginEndPointAsyncFunc = createAsyncThunk(
   "auth/loginEndPoint",
   async ({ idToken }, { dispatch }) => {
-    const api = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_LOGIN_ENDPOINT}`;
     try {
-      const response = await axios.post(api, { idToken });
+      const response = await api.post(import.meta.env.VITE_LOGIN_ENDPOINT, { idToken });
       const { token: jwtToken, user } = response.data;
-      console.log(user);
 
       if (!jwtToken || !user) {
         throw new Error("Invalid response from server");
@@ -91,7 +80,7 @@ export const loginEndPointAsyncFunc = createAsyncThunk(
         isTaskCreator: user.role === "TASK_CREATOR",
         userId: user._id,
         expiration: expirationTime,
-        jwt: jwtToken,
+        jwt: jwtToken
       };
     } catch (error) {
       return Promise.reject(error.message || "Backend login failed");
@@ -107,7 +96,6 @@ export const loginWithGoogle = createAsyncThunk(
       const user = response?.user;
       const idToken = response?.user?.accessToken;
 
-      // wait for backend API call
       await dispatch(loginEndPointAsyncFunc({ idToken })).unwrap();
 
       return {
@@ -123,7 +111,6 @@ export const loginWithGoogle = createAsyncThunk(
     }
   }
 );
-
 
 export const logoutWithGoogle = createAsyncThunk(
   "auth/logoutWithGoogle",
@@ -143,15 +130,9 @@ export const logoutWithGoogle = createAsyncThunk(
 export const deleteUser = createAsyncThunk(
   "auth/deleteUser",
   async (userId, { dispatch, rejectWithValue }) => {
-    const api = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_USER_ENDPOINT
-      }/${userId}`;
     try {
-      await axios.delete(api, {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-        },
-      });
-      toast.success("User Delted successfully!", {
+      await api.delete(`${import.meta.env.VITE_USER_ENDPOINT}/${userId}`);
+      toast.success("User Deleted successfully!", {
         position: "bottom-center",
         autoClose: 5000,
       });
@@ -163,14 +144,10 @@ export const deleteUser = createAsyncThunk(
 );
 
 export const createUser = createAsyncThunk(
-  "auth/createUser", async (userData, { dispatch, rejectWithValue }) => {
-    const api = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_USER_ENDPOINT}`;
+  "auth/createUser",
+  async (userData, { dispatch, rejectWithValue }) => {
     try {
-      const response = await axios.post(api, userData, {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-        },
-      });
+      const response = await api.post(import.meta.env.VITE_USER_ENDPOINT, userData);
       dispatch(getAllUsers());
       toast.success("User created successfully!", {
         position: "bottom-center",
@@ -184,14 +161,10 @@ export const createUser = createAsyncThunk(
 );
 
 export const updateuser = createAsyncThunk(
-  "auth/updateUser", async ({ userId, userData, loggedUserData }, { dispatch, rejectWithValue }) => {
-    const api = `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_USER_ENDPOINT}/${userId}`;
+  "auth/updateUser",
+  async ({ userId, userData, loggedUserData }, { dispatch, rejectWithValue }) => {
     try {
-      const response = await axios.put(api, userData, {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-        },
-      });
+      const response = await api.put(`${import.meta.env.VITE_USER_ENDPOINT}/${userId}`, userData);
       if (loggedUserData._id === userId) {
         dispatch(logoutWithGoogle());
       }
@@ -237,7 +210,6 @@ const authSlice = createSlice({
         state.endpointIsPending = false;
         state.endpointIsError = true;
       })
-
       .addCase(logoutWithGoogle.pending, (state) => {
         state.isLoggedIn = false;
       })
@@ -247,7 +219,6 @@ const authSlice = createSlice({
       .addCase(logoutWithGoogle.rejected, (state, action) => {
         state.loginError = action.payload;
       })
-
       .addCase(loginEndPointAsyncFunc.pending, (state) => {
         state.endpointIsPending = true;
         state.endpointIsError = false;

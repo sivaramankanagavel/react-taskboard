@@ -18,7 +18,7 @@ function Projects() {
     description: "",
     startDate: "",
     endDate: "",
-    assigneeId: "",
+    ownerId: "",
     members: [],
   });
   const [openModal, setOpenModal] = useState(false);
@@ -37,7 +37,7 @@ function Projects() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { name, description, startDate, endDate, assigneeId, members } =
+    const { name, description, startDate, endDate, ownerId, members } =
       projectFormData;
 
     if (
@@ -45,7 +45,7 @@ function Projects() {
       !description ||
       !startDate ||
       !endDate ||
-      !assigneeId ||
+      !ownerId ||
       !members.length === 0
     ) {
       toast.error("Please fill in all required fields!", {
@@ -66,7 +66,7 @@ function Projects() {
       description: "",
       startDate: "",
       endDate: "",
-      assigneeId: "",
+      ownerId: "",
       members: [],
     });
     toast.success("Project added successfully!", {
@@ -143,17 +143,17 @@ function Projects() {
             />
           </label>
           <label>
-            Assignee Name*
+            Owner Name*
             <select
-              value={projectFormData.assigneeId}
+              value={projectFormData.ownerId}
               onChange={(e) =>
                 setProjectFormData({
                   ...projectFormData,
-                  assigneeId: e.target.value,
+                  ownerId: e.target.value,
                 })
               }
             >
-              <option value="">Select Assignee</option>
+              <option value="">Select Owner</option>
               {users.filter((user) => user.role === "ADMIN" || user.role === "TASK_CREATOR").map((user) => (
                 <option key={user._id} value={user._id}>
                   {user.name}

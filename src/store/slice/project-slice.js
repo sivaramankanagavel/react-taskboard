@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import api from "../../utils/api";
 
 const initialState = {
   projects: [],
@@ -7,40 +7,19 @@ const initialState = {
   isError: false,
 };
 
-// Async Thunk for fetching projects
 export const fetchProjects = createAsyncThunk(
   "projects/fetchProjects",
   async () => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_PROJECTS_ENDPOINT}`,
-        {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-          },
-        }
-      );
-      return response?.data;
-    } catch (error) {
-      return Promise.reject(error.message || "Failed to fetch projects");
-    }
+    const response = await api.get(import.meta.env.VITE_PROJECTS_ENDPOINT);
+    return response?.data;
   }
 );
 
-// Async Thunk for adding a project
 export const addProject = createAsyncThunk(
   "projects/addProject",
   async ({ projectData }, { dispatch }) => {
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_PROJECTS_ENDPOINT}`,
-        projectData,
-        {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-          },
-        }
-      );
+      const response = await api.post(import.meta.env.VITE_PROJECTS_ENDPOINT, projectData);
       dispatch(fetchProjects());
       return response.data;
     } catch (error) {
@@ -53,14 +32,7 @@ export const deleteProject = createAsyncThunk(
   "projects/deleteProject",
   async ({ id }, { dispatch }) => {
     try {
-      const response = await axios.delete(
-        `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_PROJECTS_ENDPOINT}/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-          },
-        }
-      );
+      const response = await api.delete(`${import.meta.env.VITE_PROJECTS_ENDPOINT}/${id}`);
       dispatch(fetchProjects());
       return response.data;
     } catch (error) {
@@ -73,15 +45,7 @@ export const updateproject = createAsyncThunk(
   "projects/updateProject",
   async ({ id, projectData }, { dispatch }) => {
     try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_PROJECTS_ENDPOINT}/${id}`,
-        projectData,
-        {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-          },
-        }
-      );
+      const response = await api.put(`${import.meta.env.VITE_PROJECTS_ENDPOINT}/${id}`, projectData);
       dispatch(fetchProjects());
       return response.data;
     } catch (error) {
@@ -89,11 +53,11 @@ export const updateproject = createAsyncThunk(
     }
   }
 );
+
 const projectSlice = createSlice({
   name: "projects",
   initialState: initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchProjects.pending, (state) => {

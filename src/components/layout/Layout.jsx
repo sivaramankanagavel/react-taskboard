@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Menu, CircleX, UserPen, Badge } from "lucide-react";
 import { Outlet } from "react-router-dom";
 import SideNav from "../side-nav/SideNav";
@@ -10,6 +10,12 @@ import "./styles.scss";
 function Layout() {
   const [open, setOpen] = useState(false);
   const userData = useSelector((state) => state?.auth?.user);
+  const [userDetails, setUserDetails] = useState({});
+
+  useEffect(() => {
+    const userDetails = JSON.parse(sessionStorage.getItem("userData"));
+    setUserDetails(userDetails);
+  }, [userData])
 
   return (
     <div className="layout">
@@ -32,8 +38,8 @@ function Layout() {
         <div className="layout__user-profile">
           <BadgeCard />
           <div className="layout__user-profile--info">
-            <span>{userData?.displayName}</span>
-            <span>{userData?.email}</span>
+            {userDetails.name && <span>{userDetails.name}</span>}
+            {userDetails.email && <span>{userDetails.email}</span>}
           </div>
           <UserPen />
         </div>
